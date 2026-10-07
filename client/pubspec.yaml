@@ -1,4 +1,4 @@
-name: amagent-mobile
+name: amagent_mobile
 description: "AMAGENT Mobile Controller App"
 publish_to: "none"
 version: 1.0.0+1
