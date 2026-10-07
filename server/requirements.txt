@@ -1,0 +1,8 @@
+flask
+flask-cors
+bcrypt
+pywin32
+qrcode[pil]
+psutil
+pyinstaller
+pillow

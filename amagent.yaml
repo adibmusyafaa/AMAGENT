@@ -1,0 +1,8 @@
+name: AMAGENT
+description: Autonomous voice presentation agent
+platforms:
+  windows:
+  android:
+
+ci:
+  type: github-actions
