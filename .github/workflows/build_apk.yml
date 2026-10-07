@@ -24,15 +24,34 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Install dependencies
+      - name: Generate Fresh Flutter App & Build APK
         run: |
-          cd client
-          flutter pub get
+          # Backup main.dart & pubspec dependencies
+          mkdir -p /tmp/amagent_src
+          cp client/lib/main.dart /tmp/amagent_src/main.dart
+          
+          # Create clean flutter app
+          flutter create --org com.amagent --project-name amagent_mobile /tmp/flutter_app
+          
+          # Replace main.dart
+          cp /tmp/amagent_src/main.dart /tmp/flutter_app/lib/main.dart
+          
+          # Append dependencies to pubspec.yaml
+          cat << 'EOF' >> /tmp/flutter_app/pubspec.yaml
+            http: ^1.2.0
+            speech_to_text: ^6.6.0
+            mobile_scanner: ^5.1.1
+            shared_preferences: ^2.2.3
+          EOF
 
-      - name: Build APK
-        run: |
-          cd client
+          # Build APK
+          cd /tmp/flutter_app
+          flutter pub get
           flutter build apk --release
+          
+          # Move output to repo
+          mkdir -p $GITHUB_WORKSPACE/client/build/app/outputs/flutter-apk/
+          cp build/app/outputs/flutter-apk/app-release.apk $GITHUB_WORKSPACE/client/build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
