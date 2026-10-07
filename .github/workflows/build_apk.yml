@@ -36,13 +36,9 @@ jobs:
           # Replace main.dart
           cp /tmp/amagent_src/main.dart /tmp/flutter_app/lib/main.dart
           
-          # Append dependencies to pubspec.yaml
-          cat << 'EOF' >> /tmp/flutter_app/pubspec.yaml
-            http: ^1.2.0
-            speech_to_text: ^6.6.0
-            mobile_scanner: ^5.1.1
-            shared_preferences: ^2.2.3
-          EOF
+          # Append dependencies to pubspec.yaml properly
+          sed -i '/flutter:/i \
+          http: ^1.2.0\n          speech_to_text: ^6.6.0\n          mobile_scanner: ^5.1.1\n          shared_preferences: ^2.2.3' /tmp/flutter_app/pubspec.yaml
 
           # Build APK
           cd /tmp/flutter_app
